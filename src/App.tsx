@@ -25,6 +25,7 @@ function ChapterCard({
       <CardActionArea
         LinkComponent={Link}
         href={`pdf/${file}`}
+        target="_blank"
         sx={{ height: "100%", display: "flex" }}
       >
         <CardContent sx={{ width: "100%" }}>
