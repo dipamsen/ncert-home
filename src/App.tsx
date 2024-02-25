@@ -47,7 +47,8 @@ function ChapterCard({
 function App() {
   const props = {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr",
+    // responsive
+    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
     rowGap: "5px",
     columnGap: "5px",
     marginY: "10px",
