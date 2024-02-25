@@ -146,7 +146,7 @@ export const chemistry = {
     },
     106: {
       name: "Thermodynamics",
-      icon: "ic_content_chapter_chemistry_states_of_matter.svg",
+      icon: "ic_content_chapter_chemistry_thermodynamics.svg",
     },
     107: {
       name: "Equilibrium",
