@@ -371,3 +371,17 @@ export const maths = {
     },
   },
 } as const;
+
+export default {
+  grade: "1112",
+  subjects: {
+    Physics: physics,
+    Chemistry: chemistry,
+    Maths: maths,
+  },
+};
+
+export type Subject = Record<
+  string,
+  Record<string, { name: string; icon?: string }>
+>;

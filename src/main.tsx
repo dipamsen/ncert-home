@@ -16,6 +16,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
   },
+  {
+    path: "/class8",
+    element: <App grd={8} />,
+  },
 ]);
 
 const theme = createTheme({ palette: { mode: "dark" } });

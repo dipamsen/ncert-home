@@ -8,9 +8,16 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import { physics, chemistry, maths } from "./data";
+import grade1112, { Subject } from "./data/1112";
+import grade8 from "./data/8";
 
 type Chapter = { name: string; icon?: string };
+
+type Grade = {
+  grade: string;
+  subjects: Record<string, Record<string, Record<string, Chapter>>>;
+};
+
 function ChapterCard({
   chapter,
   fallback,
@@ -44,7 +51,17 @@ function ChapterCard({
   );
 }
 
-function App() {
+const grdMap: Record<string, Grade> = {
+  1112: grade1112,
+  8: grade8,
+};
+
+const fallbacks: Record<string, string> = {
+  Maths: "ic_content_subject_mathematics.svg",
+  Science: "ic_content_subject_chemistry.svg",
+};
+
+function App({ grd }: { grd?: number }) {
   const props = {
     display: "grid",
     // responsive
@@ -54,36 +71,29 @@ function App() {
     marginY: "10px",
   };
 
+  const currGrade = grdMap[grd || 1112];
+
   return (
     <Container maxWidth="lg" sx={{ marginTop: "20px" }}>
       <Typography variant="h3">NCERT Books</Typography>
-      <Typography variant="h4">Physics</Typography>
-      <Box {...props}>
-        {Object.entries(physics.keph).map(([id, chapter]) => (
-          <ChapterCard key={id} chapter={chapter} file={`keph${id}.pdf`} />
-        ))}
-        {Object.entries(physics.leph).map(([id, chapter]) => (
-          <ChapterCard key={id} chapter={chapter} file={`leph${id}.pdf`} />
-        ))}
-      </Box>
-      <Typography variant="h4">Chemistry</Typography>
-      <Box {...props}>
-        {Object.entries(chemistry.kech).map(([id, chapter]) => (
-          <ChapterCard key={id} chapter={chapter} file={`kech${id}.pdf`} />
-        ))}
-        {Object.entries(chemistry.lech).map(([id, chapter]) => (
-          <ChapterCard key={id} chapter={chapter} file={`lech${id}.pdf`} />
-        ))}
-      </Box>
-      <Typography variant="h4">Maths</Typography>
-      <Box {...props}>
-        {Object.entries(maths.kemh).map(([id, chapter]) => (
-          <ChapterCard key={id} chapter={chapter} file={`kemh${id}.pdf`} />
-        ))}
-        {Object.entries(maths.lemh).map(([id, chapter]) => (
-          <ChapterCard key={id} chapter={chapter} file={`lemh${id}.pdf`} />
-        ))}
-      </Box>
+
+      {Object.entries<Subject>(currGrade.subjects).map(([subject, books]) => (
+        <>
+          <Typography variant="h4">{subject}</Typography>
+          <Box {...props}>
+            {Object.entries(books).map(([bid, book]) =>
+              Object.entries(book).map(([id, chapter]) => (
+                <ChapterCard
+                  key={id}
+                  chapter={chapter}
+                  file={`${bid}${id}.pdf`}
+                  fallback={fallbacks[subject]}
+                />
+              ))
+            )}
+          </Box>
+        </>
+      ))}
     </Container>
   );
 }
