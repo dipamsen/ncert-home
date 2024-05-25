@@ -11,7 +11,7 @@ import {
 import grade1112, { Subject } from "./data/1112";
 import grade8 from "./data/8";
 
-type Chapter = { name: string; icon?: string };
+type Chapter = { name: string; icon?: string; dropped?: boolean };
 
 type Grade = {
   grade: string;
@@ -43,7 +43,12 @@ function ChapterCard({
                 chapter.icon || fallback
               }`}
             />
-            <Typography variant="h6">{chapter.name}</Typography>
+            <Typography
+              variant="h6"
+              color={chapter.dropped ? "orange" : undefined}
+            >
+              {chapter.name}
+            </Typography>
           </Box>
         </CardContent>
       </CardActionArea>
@@ -71,12 +76,13 @@ function App({ grd }: { grd?: number }) {
     marginY: "10px",
   };
 
-  const currGrade = grdMap[grd || 1112];
+  grd = grd || 1112;
+
+  const currGrade = grdMap[grd];
 
   return (
     <Container maxWidth="lg" sx={{ marginTop: "20px" }}>
       <Typography variant="h3">NCERT Books</Typography>
-
       {Object.entries<Subject>(currGrade.subjects).map(([subject, books]) => (
         <>
           <Typography variant="h4">{subject}</Typography>
@@ -94,6 +100,16 @@ function App({ grd }: { grd?: number }) {
           </Box>
         </>
       ))}
+      {grd !== 1112 && (
+        <>
+          * Chapters marked in{" "}
+          <Typography display={"inline"} color="orange">
+            orange
+          </Typography>{" "}
+          have been dropped from the textbook, as per NCERT Rationalisation of
+          Content, 2023.
+        </>
+      )}
     </Container>
   );
 }
